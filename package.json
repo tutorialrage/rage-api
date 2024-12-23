@@ -26,7 +26,6 @@
     "fluent-ffmpeg": "^2.1.2",
     "got": "^13.0.0",
     "jimp": "^0.16.1",
-    "express": "^4.17.1",
     "cors": "latest", 
     "youtube-dl-exec": "latest",
     "lodash": "^4.17.21",

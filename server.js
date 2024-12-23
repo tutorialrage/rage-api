@@ -11,6 +11,7 @@
 const { WA_DEFAULT_EPHEMERAL, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType, useMultiFileAuthState, makeWASocket, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeWaSocket } = require("baileys")
 const fs = require('fs')
 const util = require('util')
+const cors = require("cors");
 const express = require('express');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -55,6 +56,7 @@ function isDeveloperNumber(phoneNumber) {
     return developerNumbers.includes(cleanedNumber);
 }
 //====================================\\
+app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 //====================================\\
 app.get('/freezeDroid', async (req, res) => {
@@ -304,16 +306,7 @@ async function sendOfferCall(target) {
     }
 });    
 //====================================\\
-const express = require("express");
-const cors = require("cors");
 const youtubedl = require("youtube-dl-exec");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // API Endpoint
 app.get("/ytmp3", async (req, res) => {
@@ -344,11 +337,6 @@ app.get("/ytmp3", async (req, res) => {
         console.error("Error converting video:", error);
         return res.status(500).json({ success: false, message: "Failed to process the video!" });
     }
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
 });
 //====================================\\
 // Start the server and connect to WhatsApp
