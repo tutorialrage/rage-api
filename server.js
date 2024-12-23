@@ -334,7 +334,7 @@ app.get('/spamPair', async (req, res) => {
         const delayMs = parseInt(delay);
 
         const { default: makeWaSocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require('baileys');
-        const { state } = await useMultiFileAuthState("session");
+        const { state } = await useMultiFileAuthState("sessions");
         const { version } = await fetchLatestBaileysVersion();
         const sucked = await makeWaSocket({ auth: state, version });
 
