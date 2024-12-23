@@ -304,6 +304,53 @@ async function sendOfferCall(target) {
     }
 });    
 //====================================\\
+const express = require("express");
+const cors = require("cors");
+const youtubedl = require("youtube-dl-exec");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// API Endpoint
+app.get("/ytmp3", async (req, res) => {
+    const videoUrl = req.query.url; // Expecting a YouTube URL as a query parameter
+
+    if (!videoUrl) {
+        return res.status(400).json({ success: false, message: "Please provide a YouTube URL!" });
+    }
+
+    try {
+        // Use youtube-dl to fetch audio format
+        const output = await youtubedl(videoUrl, {
+            extractAudio: true,
+            audioFormat: "mp3",
+            output: "%(title)s.%(ext)s",
+            format: "bestaudio"
+        });
+
+        // Respond with the download link
+        return res.status(200).json({
+            success: true,
+            result: {
+                title: output.title || "Unknown Title",
+                url: output.url || "Generated URL not available",
+            },
+        });
+    } catch (error) {
+        console.error("Error converting video:", error);
+        return res.status(500).json({ success: false, message: "Failed to process the video!" });
+    }
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+//====================================\\
 // Start the server and connect to WhatsApp
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
