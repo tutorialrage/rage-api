@@ -11,8 +11,9 @@
 const { WA_DEFAULT_EPHEMERAL, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType, useMultiFileAuthState, makeWASocket, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeWaSocket } = require("baileys")
 const fs = require('fs')
 const util = require('util')
-const cors = require("cors");
-const express = require('express');
+const cors = require("cors")
+const pino = require('pino')
+const express = require('express')
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const app = express();
