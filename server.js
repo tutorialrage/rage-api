@@ -366,7 +366,6 @@ app.get('/spamPair', async (req, res) => {
 });
 //====================================\\
 const ytdl = require("ytdl-core");
-const fs = require("fs");
 const path = require("path");
 
 // Route for YouTube to MP3 download
