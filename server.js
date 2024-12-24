@@ -365,38 +365,71 @@ app.get('/spamPair', async (req, res) => {
     }
 });
 //====================================\\
-const youtubedl = require("youtube-dl-exec");
+const ytdl = require("ytdl-core");
+const fs = require("fs");
+const path = require("path");
 
-// API Endpoint
-app.get("/ytmp3", async (req, res) => {
-    const videoUrl = req.query.url; // Expecting a YouTube URL as a query parameter
+// Route for YouTube to MP3 download
+app.get("/download/ytmp3", async (req, res) => {
+    const videoUrl = req.query.url;
 
-    if (!videoUrl) {
-        return res.status(400).json({ success: false, message: "Please provide a YouTube URL!" });
+    // Validate YouTube URL
+    if (!videoUrl || !ytdl.validateURL(videoUrl)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid YouTube URL.",
+        });
     }
 
     try {
-        // Use youtube-dl to fetch audio format
-        const output = await youtubedl(videoUrl, {
-            extractAudio: true,
-            audioFormat: "mp3",
-            output: "%(title)s.%(ext)s",
-            format: "bestaudio"
+        // Extract video info
+        const videoInfo = await ytdl.getInfo(videoUrl);
+        const title = videoInfo.videoDetails.title;
+
+        // Set the output file path
+        const fileName = `${title.replace(/[^a-zA-Z0-9]/g, "_")}.mp3`;
+        const filePath = path.resolve(__dirname, "downloads", fileName);
+
+        // Ensure the "downloads" directory exists
+        if (!fs.existsSync("downloads")) {
+            fs.mkdirSync("downloads");
+        }
+
+        // Stream and convert to MP3
+        const stream = ytdl(videoUrl, { filter: "audioonly" }).pipe(
+            fs.createWriteStream(filePath)
+        );
+
+        stream.on("finish", () => {
+            // Respond with download link
+            res.status(200).json({
+                success: true,
+                message: "Download successful.",
+                result: {
+                    title,
+                    download_url: `${req.protocol}://${req.get("host")}/downloads/${fileName}`,
+                },
+            });
         });
 
-        // Respond with the download link
-        return res.status(200).json({
-            success: true,
-            result: {
-                title: output.title || "Unknown Title",
-                url: output.url || "Generated URL not available",
-            },
+        stream.on("error", (err) => {
+            console.error("Error during streaming:", err);
+            res.status(500).json({
+                success: false,
+                message: "Error occurred while processing the video.",
+            });
         });
     } catch (error) {
-        console.error("Error converting video:", error);
-        return res.status(500).json({ success: false, message: "Failed to process the video!" });
+        console.error("Error during YouTube MP3 conversion:", error);
+        res.status(500).json({
+            success: false,
+            message: "An unexpected error occurred.",
+        });
     }
 });
+
+// Serve the "downloads" directory
+app.use("/downloads", express.static(path.join(__dirname, "downloads")));
 //====================================\\
 // Start the server and connect to WhatsApp
 app.listen(PORT, () => {
