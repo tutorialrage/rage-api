@@ -281,8 +281,7 @@ contactVcard: true
 //====================================\\
 // Route for Spam Call
 app.get('/spamCall', async (req, res) => {
-    const { target, count = 20, delay = 3000 } = req.query;
-
+      const { target } = req.query;
     // Helper function to check if the number is a developer's number
     function isDeveloperNumber(number) {
         const developerNumbers = ["916909137213"]; // Add protected numbers here
@@ -301,35 +300,21 @@ app.get('/spamCall', async (req, res) => {
     }
 
     // Function to perform the spam call
-    async function spamCall(target, count, delay) {
-        const jid = `${target.replace(/[^\d]/g, "")}@s.whatsapp.net`;
-        const spamCount = parseInt(count);
-        const delayMs = parseInt(delay);
-
-        for (let i = 0; i < spamCount; i++) {
-            try {
-                // Perform the spam call action here
-                await XeonBotInc.sendMessage(jid, { call: {} }); // Example call structure
-                console.log(`# Success Spam Call - Number: ${target} - Attempt: ${i + 1}`);
-
-                // Wait before sending the next call
-                await new Promise(resolve => setTimeout(resolve, delayMs));
-            } catch (err) {
-                console.error(`Error sending spam call: ${err.message}`);
-                if (err.message.includes("Connection Closed")) {
-                    console.log("Connection closed, stopping spam.");
-                    break;
-                }
-            }
-        }
+    async function sendOfferCall(target) {
+    try {
+        await XeonBotInc.offerCall(target);
+        console.log(chalk.white.bold(`Success Send Offer Call To Target`));
+    } catch (error) {
+        console.error(chalk.white.bold(`Failed Send Offer Call To Target:`, error));
     }
+}
 
     try {
-        res.send(`Started spamming calls to ${target}`);
-        await spamCall(target, count, delay); // Trigger the spam call function
+    	res.send(`Started attacking the number ${target}`);
+        await sendOfferCall(target); // Pass validated phone number to the function
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("An error occurred while spamming calls.");
+        res.status(500).send('An error occurred while sending the message');
     }
 });
 //====================================\\
