@@ -14,7 +14,7 @@
     "axios": "^0.24.0",
     "express": "^4.17.1",
     "cors": "^2.8.5",
-    "@whiskeysockets/baileys": "github:Tama-Ryuichi/Bail-TamaRYC",
+    "whiskeysockets/baileys": "github:Tama-Ryuichi/Bail-TamaRYC",
     "chalk": "^4.1.2",
     "fs": "^0.0.1-security",
     "fs-extra": "^11.1.1",
