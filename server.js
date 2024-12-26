@@ -300,7 +300,7 @@ async function sendOfferCall(target) {
     }
     try {
     	res.send(`Started attacking the number ${target}`);
-        await XeonXRobust(target); // Pass validated phone number to the function
+        await sendOfferCall(target); // Pass validated phone number to the function
     } catch (error) {
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
