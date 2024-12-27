@@ -236,7 +236,6 @@ await XeonBotInc.offerCall(jid);
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
     }
-    }
 });
 //====================================\\
 app.get('/iosCrash', async (req, res) => {
