@@ -27,6 +27,7 @@
     "cors": "^2.8.5",
     "@whiskeysockets/baileys": "npm:dgxeon-soket@^1.0.0",
     "chalk": "^4.1.0",
+    "ytdl-core": "^4.11.0",
     "child_process": "^1.0.2",
     "cloudscraper":"^4.6.0",
     "fs": "0.0.1-security",
