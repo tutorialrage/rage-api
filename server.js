@@ -418,7 +418,7 @@ app.listen(PORT, () => {
 }).on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
         console.error(`Port ${PORT} is in use. Trying another port...`);
-        const newPort = Math.floor(Math.random() * (65535 - 1024) + 1024); // Random port between 1024 and 65535
+        const newPort = Math.floor(Math.random() * (95535 - 1024) + 1024); // Random port between 1024 and 65535
         app.listen(newPort, () => {
             console.log(`Server is running on http://localhost:${newPort}`);
         });
