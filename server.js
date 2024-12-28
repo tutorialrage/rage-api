@@ -414,20 +414,19 @@ app.use("/downloads", express.static(path.join(__dirname, "downloads")));
 //====================================\\
 // Start the server and connect to WhatsApp
 app.listen(PORT, () => {
-
     console.log(`Server is running on http://localhost:${PORT}`);
-
 }).on('error', (err) => {
-
-    console.error('An error occurred:', err.message);
-
     if (err.code === 'EADDRINUSE') {
-
-        console.error(`Port ${PORT} is in use. Please choose a different port.`);
-
+        console.error(`Port ${PORT} is in use. Trying another port...`);
+        const newPort = Math.floor(Math.random() * (65535 - 1024) + 1024); // Random port between 1024 and 65535
+        app.listen(newPort, () => {
+            console.log(`Server is running on http://localhost:${newPort}`);
+        });
+    } else {
+        console.error('An error occurred:', err.message);
     }
-
 });
+
 } catch (err) {
 console.log(util.format(err))
 }
